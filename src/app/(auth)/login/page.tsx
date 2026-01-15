@@ -12,15 +12,24 @@ const loginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-    if (!res?.error) {
-      console.log(res?.error);
-    } else {
-      router.push("/");
+    try {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      
+      if (res?.error) {
+        alert("Login failed: " + res.error);
+        return;
+      }
+      
+      if (res?.ok) {
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred during login");
     }
   };
 
@@ -44,13 +53,13 @@ const loginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
-            className="bg-blue-500 w-full px-5 py-1 rounded-md"
             type="submit"
+            className="bg-blue-500 w-full px-5 py-1 rounded-md"
           >
             Login
           </button>
           <p className="text-gray-200 text-sm">
-            Don't have an account ?{" "}
+            Don't have an account ?
             <a href="/register">
               <span className="font-bold text-blue-500">Register</span>
             </a>

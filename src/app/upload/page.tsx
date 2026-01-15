@@ -5,12 +5,12 @@ import { redirect } from "next/navigation";
 
 async function page() {
 
- const cookie = await cookies();
- const token =  cookie.get("token")
+//  const cookie = await cookies();
+//  const token =  cookie.get("token")
 
- if(!token) {
-  redirect("/login")
- }
+//  if(!token) {
+//   redirect("/login")
+//  }
 
   return (
     <div className="container mx-auto px-4 py-8">

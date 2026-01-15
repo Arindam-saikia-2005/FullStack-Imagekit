@@ -35,7 +35,7 @@ const RegisterPage = () => {
         throw new Error(data.error || "Registration failed");
       }
       console.log("data", data);
-      router.push("/login");
+      router.push("/");
     } catch (error: any) {
       alert(error);
       console.log(error.message);
