@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 
+
 export async function GET() {
     try {
         await DbConnect()
@@ -44,7 +45,7 @@ export async function POST(req: NextRequest) {
 
         const body: IVideo = await req.json();
 
-        if (!body.title || !body.description || !body.videoUrl || !body.thumbnailUrl) {
+        if (!body.title || !body.description ) {
             return NextResponse.json({
                 errror: "All fields are required"
             }, {

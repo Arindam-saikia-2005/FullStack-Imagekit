@@ -28,7 +28,7 @@ const loginPage = () => {
     <div className="flex text-white justify-center items-center min-h-screen w-full flex-col">
       <form onSubmit={handleSubmit}>
         <div className="flex  flex-col p-10  items-center  justify-center space-y-3">
-          <h1 className="font-semibold text-xl self-start ">Login</h1>
+          <h1 className="font-semibold text-xl text-center ">Login</h1>
           <label className="self-start">Email</label>
           <input
             className="bg-gray-800 border px-10 h-8 border-blue-500 rounded-sm"
@@ -50,7 +50,7 @@ const loginPage = () => {
             Login
           </button>
           <p className="text-gray-200 text-sm">
-            Don't have an accoount ?{" "}
+            Don't have an account ?{" "}
             <a href="/register">
               <span className="font-bold text-blue-500">Register</span>
             </a>

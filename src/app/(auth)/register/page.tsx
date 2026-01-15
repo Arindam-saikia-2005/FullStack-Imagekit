@@ -68,21 +68,22 @@ const RegisterPage = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          <button className="bg-blue-500 w-full px-5 py-1 rounded-md" type="submit">
+          <button
+            className="bg-blue-500 w-full px-5 py-1 rounded-md"
+            type="submit"
+          >
             Submit
           </button>
           <p className="text-gray-200 text-sm">
-          Already have an accoount ?{" "}
-          <a href="/login">
-            <span className="font-bold text-blue-500">Login</span>
-          </a>
-        </p>
+            Already have an accoount ?{" "}
+            <a href="/login">
+              <span className="font-bold text-blue-500">Login</span>
+            </a>
+          </p>
         </div>
       </form>
 
-      <div>
-        
-      </div>
+      <div></div>
     </div>
   );
 };
