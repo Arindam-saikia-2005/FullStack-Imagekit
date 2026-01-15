@@ -1,9 +1,22 @@
+import VideoFeed from "@/components/VideoFeed";
+import { apiClient } from "@/lib/api-client";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
+export default async function Home() {
 
-export default function Home() {
+  const cookieStore = await cookies()
+  const token =  cookieStore.get("token")
+
+  if(!token) {
+    redirect("/login")
+  }
+
+  const videos = await apiClient.getVideos()
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <h1 className="text-3xl font-bolds">Hello from the client</h1>
+    <div className="flex min-h-screen items-center  dark:bg-black">
+     <VideoFeed videos={videos} />
     </div>
   );
 }

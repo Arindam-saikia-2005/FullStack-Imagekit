@@ -1,50 +1,57 @@
 import { IVideo } from "@/models/video";
 
 type FetchOptions = {
-    method?: "GET" | "POST" | "PUT" | "DELETE";
-    body?: any;
-    headers?: Record<string, string>
-}
+  method?: "GET" | "POST" | "PUT" | "DELETE";
+  body?: unknown;
+  headers?: Record<string, string>;
+};
 
-export type videoFormData = Omit<IVideo, "_id">
-
+export type VideoFormData = Omit<IVideo, "_id">;
 
 class ApiClient {
-    private async fetch<T>(
-        endpoint: string,
-        options: FetchOptions = {}
-    ): Promise<T> {
-        const { method = "GET", body, headers = {} } = options
+  private async fetch<T>(
+    endpoint: string,
+    options: FetchOptions = {}
+  ): Promise<T> {
+    const { method = "GET", body, headers = {} } = options;
 
-        const defaultHeaders = {
-            "Content-type": "application/json",
-            ...headers
-        }
+    const defaultHeaders: HeadersInit = {
+      "Content-Type": "application/json",
+      ...headers,
+    };
 
-        const response = await fetch(`/api/${endpoint}`, {
-            method,
-            headers: defaultHeaders,
-            body: body ? JSON.stringify(body) : undefined
-        })
+    // Use server-only base URL; relative URL on the client
+    const baseUrl =
+      typeof window === "undefined"
+        ? process.env.NEXT_BASE_URL ?? "http://localhost:3000"
+        : "";
 
-        if (!response.ok) {
-            throw new Error(await response.text())
-        }
+    const response = await fetch(`${baseUrl}/api/${endpoint}`, {
+      method,
+      headers: defaultHeaders,
+      body: body ? JSON.stringify(body) : undefined,
+      cache: "no-store", // safe default for dynamic data
+    });
 
-        return response.json()
+    if (!response.ok) {
+      throw new Error(await response.text());
     }
 
+    return response.json() as Promise<T>;
+  }
 
-    async getVideos() {
-        return this.fetch<IVideo[]>("/video")
-    }
+  async getVideos(): Promise<IVideo[]> {
+    const { videos } = await this.fetch<{ videos: IVideo[] }>("video");
+    return videos;
+  }
 
-    async createVideo (videoData:IVideo) {
-        return this.fetch<IVideo>("/video",{
-           method:"POST",
-           body:videoData
-        })
-    }
+  async createVideo(videoData: VideoFormData): Promise<IVideo> {
+    const { newVideo } = await this.fetch<{ newVideo: IVideo }>("video", {
+      method: "POST",
+      body: videoData,
+    });
+    return newVideo;
+  }
 }
 
-export const apiClient  = new ApiClient()
+export const apiClient = new ApiClient();
